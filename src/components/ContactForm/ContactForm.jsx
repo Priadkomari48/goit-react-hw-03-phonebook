@@ -1,38 +1,56 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Label } from './ContactForm.styled'
+import shortid from 'shortid';
+import Name from '../Name'
+import Number from '../Number'
 
-export class ContactForm extends Component {
+class ContactForm extends Component {
     state = {
       name: '',
-      number: '',
+      number: ''
     };
- 
-  handleSubmit = (e) => {
-    e.preventDefault();
+    
+    loginInputNameId = shortid.generate(); 
+    loginInputNamberId = shortid.generate(); 
+  
+    hendleInputChange = event => {
+      const {value, name} = event.currentTarget;
+      this.setState({ [name]: value });
+    }
 
-    const { name, number } = this.state;
+    handleSubmit = event => {
+      event.preventDefault();
+      this.props.onSubmitForm(this.state)
+      this.reset()
+    };
+    
+    reset = () => {
+      this.setState({ name: '', number: '' })
+    };
+  
+    render() {
+      const { name, number } = this.state;
+      
+      return (
+        <form onSubmit = {this.handleSubmit}>
+          
+          <Name
+            name={name}
+            hendleInputChange={this.hendleInputChange}
+            idInput={this.loginInputNameId}
+            htmlFor={this.loginInputNameId}
+          />
 
-    this.props.onSubmit({ name, number });
-
-    this.setState({
-      name: '',
-      number: '',
-    });
-  };
-
-  render() {
-    const { name, number } = this.state;
-
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Label>Name</Label>
-        <Input type="text" name="name" value={name} onChange={(e) => this.setState({ name: e.target.value })} required />
-        <Label>Number</Label>
-        <Input type="tel" name="number" value={number} onChange={(e) => this.setState({ number: e.target.value })} required />
-        <Button type="submit">Add contact</Button>
-      </Form>
-    );
-  }
+          <Number
+            number={number}
+            hendleInputChange={this.hendleInputChange}
+            idInput={this.loginInputNamberId}
+            htmlFor={this.loginInputNamberId}
+          />
+          
+          <button type="submit">Add contact</button>
+        </form>
+      )
+    }
 }
 
-
+export default ContactForm;

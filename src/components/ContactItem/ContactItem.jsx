@@ -1,19 +1,16 @@
-import React from 'react';
-import { ListItem, Button, Span, NumberSpan } from './ContactItem.styled';
+import PropTypes from 'prop-types'
 
-export const ContactItem = ({ contact, onDelete }) => {
-  const handleDelete = () => {
-    onDelete(contact.id);
-  };
+const ContactItem = ({id, name, number, onDeleteContact}) => (
+    <>
+        <p>{`${name}: ${number}`}</p>
+        <button type= "button" onClick = {() => onDeleteContact(id)} >Delete</button>
+    </> 
+)
 
-  return (
-    <ListItem>
-      <Span>{contact.name}: </Span>
-      <NumberSpan>{contact.number}</NumberSpan>
-      <Button onClick={handleDelete}>Delete</Button>
-    </ListItem>
-  );
+export default ContactItem;
+
+ContactItem.propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
 };
-
-
-

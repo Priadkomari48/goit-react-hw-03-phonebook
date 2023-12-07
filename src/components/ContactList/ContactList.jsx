@@ -1,14 +1,27 @@
+import ContactItem from '../ContactItem'
+import PropTypes from 'prop-types'
 
-import { ContactItem } from "components/ContactItem/ContactItem"; 
+const ContactList = ({ contacts, onDeleteContact }) => (
+	<ul>
+		{contacts.map(contact => {
+			const {id, name, number} = contact
+			return (
+                <li key={id}>
+                    <ContactItem
+						id={id}
+						name={name}
+						number={number}
+						onDeleteContact={onDeleteContact}
+					/>
+                </li>
+            )
+		})}
+	</ul>
+)
 
-export const ContactList = ({ contacts, onDelete }) => {
-  return (
-    <ul>
-      {contacts.map((contact) => (
-        <ContactItem key={contact.id} contact={contact} onDelete={onDelete} />
-      ))}
-    </ul>
-  );
-}
+export default ContactList;
 
-
+ContactList.propTypes = {
+  contacts: PropTypes.array,
+  onClick: PropTypes.func,
+};
